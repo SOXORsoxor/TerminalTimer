@@ -86,7 +86,7 @@ def main(stdscr):
     t = get_time(win)
     logging.info("time:%s", t)
     t = get_second(t)
-    djs(win, t)
+    timer(win, t)
 
     # 清理资源
     curses.endwin()
