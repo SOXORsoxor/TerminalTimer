@@ -22,6 +22,7 @@ def timer(win, second:int):
 
 
 def get_time(stdscr):
+    curses.curs_set(1)
     stdscr.clear()
     ch_list = []
     stdscr.addstr(0, 0, "请输入计时器时间:")
@@ -31,13 +32,14 @@ def get_time(stdscr):
         if x > 0x1f and x < 0x7f:
             ch_list.append(chr(x))
             stdscr.addch(x)
-        if x == 263: # 退格键
+        if x == 263:  # 退格键
             y, x = stdscr.getyx()
             if x > 0 and y > 0:
                 stdscr.move(y, x-1)
                 stdscr.delch()
         if x == 10:  # 27 = ESC = 0x1b
             break
+    curses.curs_set(0)
     return "".join(ch_list)
 
 
@@ -57,12 +59,23 @@ def get_second(t: str):
     raise "请输入数字"
 
 
-    
+def quit_timer(stdscr, height, width):
+
+    stdscr.clear()
+    win = curses.newwin(height//2+1, width//2+10, height //
+                        2-1, width//2-5)
+    win.addstr(0, 0, "时间到了")
+    win.addstr(3, 0, "按空格退出")
+    win.refresh()
+    while True:
+        if win.getch() == 32:
+            break
 
 
 def main(stdscr):
     # 初始化
-    # curses.curs_set(0)
+    curses.curs_set(0)
+    stdscr.clear()
     stdscr.nodelay(1)
 
     # 创建一个窗口
