@@ -2,10 +2,11 @@ import curses
 import time
 import logging
 
-logging.basicConfig(filename='clock.log', encoding='utf-8', level=logging.DEBUG)
+logging.basicConfig(filename='clock.log',
+                    encoding='utf-8', level=logging.DEBUG)
 
 
-def timer(win, second:int):
+def timer(win, second: int):
     win.clear()
     end_time = second + time.time()
 
@@ -53,7 +54,7 @@ def get_second(t: str):
     if len(t) == 1:
         return int(t[0])
     if len(t) == 2:
-        return int(t[0])*60
+        return int(t[0])*60 + int(t[1])
     if len(t) == 3:
         return int(t[0])*3600 + int(t[1])*60 + int(t[2])
     raise "请输入数字"
@@ -80,14 +81,14 @@ def main(stdscr):
 
     # 创建一个窗口
     height, width = stdscr.getmaxyx()  # 获取屏幕的高度和宽度
-    
+
     win = curses.newwin(height//2, width//2 + 5, height //
                         2, width//2 - 5)  # 创建了一个新窗口,居中
     t = get_time(win)
     logging.info("time:%s", t)
     t = get_second(t)
     timer(win, t)
-
+    quit_timer(stdscr, height, width)
     # 清理资源
     curses.endwin()
 
